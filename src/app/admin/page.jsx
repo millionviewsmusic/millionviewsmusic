@@ -36,7 +36,6 @@ const UserList = dynamic(() => import("../components/UserList"), {
 });
 
 import React, { useState, useEffect } from "react";
-const VIDEOS_PER_PAGE = 9;
 
 export default function AdminPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,7 +47,6 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("latest");
-  const [currentPage, setCurrentPage] = useState(1);
   const [loadedIds, setLoadedIds] = useState([]);
 
   const [showAddVideoDialog, setShowAddVideoDialog] = useState(false);
@@ -248,23 +246,11 @@ export default function AdminPage() {
       return 0;
     });
 
-  const totalPages = Math.ceil(filteredVideos.length / VIDEOS_PER_PAGE);
-  const paginatedVideos = filteredVideos.slice(
-    (currentPage - 1) * VIDEOS_PER_PAGE,
-    currentPage * VIDEOS_PER_PAGE
-  );
 
   const handleVideoLoad = (id) => {
     setLoadedIds((prev) => [...prev, id]);
   };
 
-  const handlePrev = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  };
-
-  const handleNext = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
   const handleDeleteVideo = async (id) => {
     try {
       const res = await fetch(`/api/videos/${id}`, { method: "DELETE" });
@@ -366,7 +352,6 @@ export default function AdminPage() {
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
-            setCurrentPage(1);
           }}
           className="rounded-full px-6 py-3 w-full md:w-96 bg-[#393E46] text-white focus:outline-none placeholder:text-gray-400"
         />
@@ -375,7 +360,6 @@ export default function AdminPage() {
           value={sortBy}
           onChange={(e) => {
             setSortBy(e.target.value);
-            setCurrentPage(1);
           }}
           className="rounded-full cursor-pointer px-4 py-3 bg-[#393E46] text-white focus:outline-none"
         >
@@ -427,7 +411,7 @@ export default function AdminPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
-        {paginatedVideos.map((video) => (
+        {filteredVideos.map((video) => (
           <div
             key={video.id}
             className="bg-[#393E46] rounded-2xl overflow-hidden shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-[0_0_15px_#00ADB5] cursor-pointer"
@@ -568,36 +552,7 @@ export default function AdminPage() {
         ))}
       </div>
 
-      {/* Pagination Controls */}
-      {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-4 mt-4 flex-wrap">
-          <button
-            onClick={handlePrev}
-            disabled={currentPage === 1}
-            className={`px-5 py-2 rounded-full font-medium transition  ${
-              currentPage === 1
-                ? "bg-gray-600 text-gray-300 cursor-not-allowed"
-                : "bg-[#00ADB5] text-white hover:bg-[#019ca3] cursor-pointer"
-            }`}
-          >
-            Previous
-          </button>
-          <span className="text-white text-sm">
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            onClick={handleNext}
-            disabled={currentPage === totalPages}
-            className={`px-5 py-2 rounded-full font-medium transition  ${
-              currentPage === totalPages
-                ? "bg-gray-600 text-gray-300 cursor-not-allowed"
-                : "bg-[#00ADB5] text-white hover:bg-[#019ca3] cursor-pointer"
-            }`}
-          >
-            Next
-          </button>
-        </div>
-      )}
+     
 
       <UserList />
       {showAddVideoDialog && (
