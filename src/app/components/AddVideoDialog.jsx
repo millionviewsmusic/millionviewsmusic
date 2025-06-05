@@ -1,0 +1,136 @@
+"use client";
+
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+
+export default function AddVideoDialog({ onClose, onSuccess }) {
+  const [videoId, setVideoId] = useState("");
+  const [title, setTitle] = useState("");
+  const [createdAt, setCreatedAt] = useState("");
+  const [youtubeLink, setYoutubeLink] = useState("");
+  const [spotifyLink, setSpotifyLink] = useState("");
+  const [amazonLink, setAmazonLink] = useState("");
+  const [appleMusicLink, setAppleMusicLink] = useState("");
+  const [gaanaLink, setGaanaLink] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const newVideo = {
+      videoId,
+      title,
+      createdAt: createdAt
+        ? new Date(createdAt + "T00:00:00Z").toISOString()
+        : new Date().toISOString(),
+      youtubeLink,
+      spotifyLink,
+      amazonLink,
+      appleMusicLink,
+      gaanaLink,
+    };
+
+    try {
+      const res = await fetch("/api/videos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newVideo),
+      });
+
+      if (!res.ok) throw new Error("Failed to add video");
+
+      onSuccess();
+      onClose();
+    } catch (err) {
+      console.error(err);
+      toast.error("Error adding video");
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-[#393e46] rounded-xl w-full max-w-md p-6 border border-white">
+        <h2 className="text-white text-xl font-semibold mb-4 text-center">
+          Add New Video
+        </h2>
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="YouTube Video ID"
+            value={videoId}
+            onChange={(e) => setVideoId(e.target.value)}
+            required
+            className="p-3 rounded border border-white bg-[#222831] text-white placeholder-[#88a1a6] focus:outline-none"
+          />
+          <input
+            type="text"
+            style={{ colorScheme: "dark" }}
+            placeholder="Video Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            className="p-3 rounded border border-white bg-[#222831] text-white placeholder-[#88a1a6] focus:outline-none"
+          />
+          <input
+            type="date"
+            style={{ colorScheme: "dark" }}
+            value={createdAt}
+            onChange={(e) => setCreatedAt(e.target.value)}
+            required
+            className="p-3 rounded border border-white bg-[#222831] text-white placeholder-[#88a1a6] focus:outline-none [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert"
+          />
+          <input
+            type="text"
+            placeholder="YouTube Link"
+            value={youtubeLink}
+            onChange={(e) => setYoutubeLink(e.target.value)}
+            className="p-3 rounded border border-white bg-[#222831] text-white placeholder-[#88a1a6] focus:outline-none"
+          />
+          <input
+            type="text"
+            placeholder="Spotify Link"
+            value={spotifyLink}
+            onChange={(e) => setSpotifyLink(e.target.value)}
+            className="p-3 rounded border border-white bg-[#222831] text-white placeholder-[#88a1a6] focus:outline-none"
+          />
+          <input
+            type="text"
+            placeholder="Amazon Music Link"
+            value={amazonLink}
+            onChange={(e) => setAmazonLink(e.target.value)}
+            className="p-3 rounded border border-white bg-[#222831] text-white placeholder-[#88a1a6] focus:outline-none"
+          />
+          <input
+            type="text"
+            placeholder="Apple Music Link"
+            value={appleMusicLink}
+            onChange={(e) => setAppleMusicLink(e.target.value)}
+            className="p-3 rounded border border-white bg-[#222831] text-white placeholder-[#88a1a6] focus:outline-none"
+          />
+          <input
+            type="text"
+            placeholder="Gaana Link"
+            value={gaanaLink}
+            onChange={(e) => setGaanaLink(e.target.value)}
+            className="p-3 rounded border border-white bg-[#222831] text-white placeholder-[#88a1a6] focus:outline-none"
+          />
+
+          <div className="flex justify-between gap-3 mt-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="w-full cursor-pointer py-3 bg-gray-600 rounded text-white font-semibold hover:bg-gray-500 transition"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="w-full py-3 cursor-pointer bg-[#00ADB5] rounded text-white font-semibold hover:bg-[#019ca3] transition"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
