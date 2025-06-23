@@ -32,7 +32,6 @@ const Playlist = () => {
         const res = await fetch(`/api/${category}`);
         const data = await res.json();
 
-        console.log(" data is ", data);
         if (!Array.isArray(data)) throw new Error("Invalid data format");
         setVideos(data);
         setVideoCache((prev) => ({ ...prev, [category]: data }));
