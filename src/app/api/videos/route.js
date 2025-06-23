@@ -4,8 +4,6 @@ import db from "../../database/db";
 export async function GET(req) {
   try {
     const result = await db.query("SELECT * FROM videos");
-
-    console.log(" data from backend ", result.rows);
     return NextResponse.json(result.rows);
   } catch (err) {
     console.error("Error fetching videos:", err);
