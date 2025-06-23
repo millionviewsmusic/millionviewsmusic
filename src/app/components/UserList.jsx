@@ -16,7 +16,6 @@ export default function UserList() {
     fetch(`/api/users?page=${page}&limit=${limit}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(" data from backend", data);
         setUsers(data.users);
         setTotalUsers(data.total);
         setLoading(false);

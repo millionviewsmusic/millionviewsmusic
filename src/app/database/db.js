@@ -5,7 +5,7 @@ const { Pool } = pkg;
 const db = new Pool({
   connectionString:
     process.env.DATABASE_URL ||
-    "postgresql://neondb_owner:npg_YfVb5lAM9Cju@ep-orange-heart-a83hzddx-pooler.eastus2.azure.neon.tech/neondb?sslmode=require",
+    "postgresql://postgres.gfkdqabsefrxjmnhzaqu:Sairam@1437@aws-0-ap-south-1.pooler.supabase.com:6543/postgres",
   ssl: {
     rejectUnauthorized: false, // Neon requires SSL
   },
