@@ -102,6 +102,8 @@ export default function AdminPage() {
     try {
       const res = await fetch(`/api/${category}`);
       const data = await res.json();
+
+      if (!Array.isArray(data)) throw new Error("Invalid data format");
       setVideos(data);
       setVideoCache((prev) => ({ ...prev, [category]: data }));
     } catch (err) {
