@@ -1,0 +1,47 @@
+# Node modules
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Production environment variables
+.env
+.env.local
+.env.*.local
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local VSCode settings
+.vscode/
+
+# Optional: Mac trash folder
+.Trashes
+
+# Optional: OS generated files
+*.swp
+*.swo
+
+# Optional: Coverage (if you're using Jest or similar)
+coverage/
+
+# Optional: Logs
+logs/
+*.log
+
+# Optional: Typescript build
+*.tsbuildinfo
+
+# Optional: Vercel output (if using `output` mode)
+.vercel/output/
+
+# Optional: Turbo repo cache
+turbo/

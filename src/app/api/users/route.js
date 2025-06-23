@@ -3,7 +3,6 @@ import db from "../../database/db.js";
 
 export async function GET(req) {
   try {
-    console.log(" in backend ");
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page")) || 1;
     const limit = parseInt(searchParams.get("limit")) || 20;
@@ -21,7 +20,6 @@ export async function GET(req) {
       [limit, offset]
     );
 
-    console.log("usersResult.rows", usersResult.rows);
     return NextResponse.json({
       users: usersResult.rows,
       total,

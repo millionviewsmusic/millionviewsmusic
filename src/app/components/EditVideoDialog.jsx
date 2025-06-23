@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 
 export default function EditVideoDialog({ video, onClose, onSuccess }) {
-  console.log(" video ", video);
   const [videoId, setVideoId] = useState(video?.videoId || "");
   const [title, setTitle] = useState(video?.title || "");
   const [createdAt, setCreatedAt] = useState(
