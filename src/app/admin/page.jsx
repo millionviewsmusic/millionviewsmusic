@@ -137,7 +137,12 @@ export default function AdminPage() {
         const data = await res.json();
         throw new Error(data.error || "Failed to delete video");
       }
-      refetchVideos();
+      const updatedList = videos.filter((v) => v.videoId !== id);
+      setVideos(updatedList);
+      setVideoCache((prev) => ({
+        ...prev,
+        videos: updatedList,
+      }));
       toast.success("Video deleted successfully");
     } catch (err) {
       toast.error(err.message || "Failed to delete video");
@@ -151,7 +156,12 @@ export default function AdminPage() {
         const data = await res.json();
         throw new Error(data.error || "Failed to delete short");
       }
-      refetchVideos();
+      const updatedList = videos.filter((v) => v.videoId !== id);
+      setVideos(updatedList);
+      setVideoCache((prev) => ({
+        ...prev,
+        shorts: updatedList,
+      }));
       toast.success("Short deleted successfully");
     } catch (err) {
       toast.error(err.message || "Failed to delete short");
@@ -165,7 +175,12 @@ export default function AdminPage() {
         const data = await res.json();
         throw new Error(data.error || "Failed to delete playlist");
       }
-      refetchVideos();
+      const updatedList = videos.filter((v) => v.videoId !== id);
+      setVideos(updatedList);
+      setVideoCache((prev) => ({
+        ...prev,
+        shorts: updatedList,
+      }));
       toast.success("Playlist deleted successfully");
     } catch (err) {
       toast.error(err.message || "Failed to delete playlist");
